@@ -77,10 +77,10 @@ const initNewStartingSum = (startingSum: number, commandService: CommandService)
   }
 
   // commandService.createImage(item1.img)
-  commandService.createDescription(item1.title, item1.size, item1.collection, item1.designer, item1.condition, item1.material)
+  // commandService.createDescription(item1.title, item1.size, item1.collection, item1.designer, item1.condition, item1.material)
   initNewStartingSum(50, commandService)
 
-  commandService.sleep(5000)
+  commandService.sleep(2000)
 
   // Start ticking clock
   renderTickingClock(15, commandService)

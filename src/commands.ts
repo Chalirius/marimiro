@@ -5,8 +5,10 @@ export class CommandService {
 
   constructor(
     private _boardId: string
-  ) { }
+  ) {
+  }
 
+  private _prevColor: string
 
   private _createOptions(method: 'POST' | 'GET' | 'DELETE' | 'PATCH', path: string) {
     const options = {
@@ -84,7 +86,12 @@ export class CommandService {
 
 
   createBidToken(sum: number, x: number, y: number, size: number) {
-    const randomColor = this._getRandomColor() || '#ffd02e'
+    // Avoid showing same color in a row
+    let randomColor = this._getRandomColor() || '#ffd02e'
+    if (randomColor === this._prevColor) {
+      randomColor = this._getRandomColor() || '#7b92ff'
+    }
+    this._prevColor = randomColor
 
     let requestParams = JSON.stringify({
       data: { content: sum + '€', shapeType: 'circle' },
@@ -119,7 +126,7 @@ export class CommandService {
   }
 
   private _getRandomColor() {
-    const randomNum = Math.floor(Math.random() * 10) + 1
+    let randomNum = Math.floor(Math.random() * 10) + 1
     if (randomNum > 0 && randomNum < 3) {
       return '#fff9b1'
     }
