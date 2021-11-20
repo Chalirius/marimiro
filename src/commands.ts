@@ -143,9 +143,9 @@ export class CommandService {
     this.createImage(requestParams)
   }
 
-  createStartingPriceBox() {
+  createStartingPriceBox(price: number) {
     const requestParams = JSON.stringify({
-      data: { content: 'starting price: 30€', shapeType: 'rectangle' },
+      data: { content: 'Starting price: ' + price + '€', shapeType: 'rectangle' },
       style: {
         backgroundColor: '#ffffff',
         backgroundOpacity: '1.0',

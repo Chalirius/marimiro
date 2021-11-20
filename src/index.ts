@@ -30,8 +30,10 @@ const renderTickingClock = (cnt: number, commandService: CommandService) => {
   } else {
     commandService.createNewCounter(getTimeAsString(cnt))
     cnt--
-    renderTickingClock
-    sleep(1000)
+
+    setTimeout(() => {
+      renderTickingClock(cnt, commandService)
+    }, 1000)
   }
 }
 
@@ -49,17 +51,22 @@ const renderBiddingTokens = (idx: number, max: number, distance: number, sum: nu
   renderBiddingTokens(++idx, max, distance, newSum, bidStep, newX, newY, newSize, commandService)
 }
 
-(async () => {
-  const commandService = new CommandService('o9J_lhmFzD4=')
+const initNewStartingSum = (startingSum: number, commandService: CommandService) => {
+  commandService.createStartingPriceBox(startingSum)
 
-  const startingSum = 50
-  const x = 4300
+  const x = 3500
   const y = 1800
   const startSize = 130
   const distance = 200
   renderBiddingTokens(0, 18, distance, startingSum, 5, x, y, startSize, commandService)
+}
 
-  sleep(5000)
+(async () => {
+  const commandService = new CommandService('o9J_lhmFzD4=')
+
+  // initNewStartingSum(50, commandService)
+
+  // sleep(5000)
 
   // Start ticking clock
   // renderTickingClock(15, commandService)
