@@ -126,11 +126,19 @@ export class CommandService {
     this._createRequest('POST', '/v2/boards?copy_from=' + oldBoardId, requestParams)
   }
 
-  updateImage() {
-    JSON.stringify({
-      data: {url: 'https://www.marimekko.com/media/catalog/product/0/9/090877-001_X188871_10_1627549500.jpg?width=1920&height=2400&canvas=1920:2400&quality=100&bg-color=255,255,255&fit=bounds'},
-      geometry: {x: '1300', y: '1200'}
-    })
+  createImage(requestParams: string) {
+    return this._createRequest('POST', '/v2/boards/' + this._boardId + '/images', requestParams);
   }
+
+  newImage(imageName: string) {
+    JSON.stringify({
+      "position": {
+          "x": 1300,
+          "y": 1200
+      },
+      "title": "../images/" + imageName
+  })
+  }
+
 }
 
