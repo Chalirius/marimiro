@@ -3,6 +3,10 @@ import * as https from 'https';
 
 export class CommandService {
 
+  constructor(
+    private _boardId: string
+  ) { }
+
   private _createOptions(method: 'POST' | 'GET' | 'DELETE', path: string) {
     const options = {
       "method": method,
@@ -37,7 +41,27 @@ export class CommandService {
     req.end();
   }
 
-  createWidget(boardId: string) {
-    this._createRequest('POST', '/v1/boards/' + boardId + '/widgets', JSON.stringify({ type: 'card', title: 'Ever simpler card' }))
+  createWidget(method: 'POST' | 'GET' | 'DELETE', requestParams: string) {
+    this._createRequest(method, '/v1/boards/' + this._boardId + '/widgets', requestParams);
+  }
+
+
+  createNewTime(currentTime: string) {
+    let requestParams = JSON.stringify({
+      data: {content: currentTime, shapeType: 'round_rectangle'},
+      style: {
+        backgroundColor: '#ffd02f',
+        backgroundOpacity: '1.0',
+        fontFamily: 'arial',
+        fontSize: '14',
+        borderColor: '#1a1a1a',
+        borderWidth: '2.0',
+        borderOpacity: '1.0',
+        borderStyle: 'normal',
+        textAlign: 'center'
+      },
+      geometry: {x: '0.0', y: 10, width: '100', height: '100', rotation: '0'}
+    })
   }
 }
+
