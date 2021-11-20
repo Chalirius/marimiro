@@ -128,8 +128,8 @@ export class CommandService {
 
   updateImage() {
     JSON.stringify({
-      data: {url: 'https://www.youtube.com/watch?v=HlVSNEiFCBk'},
-      geometry: {x: '0', y: '0'}
+      data: {url: 'https://www.marimekko.com/media/catalog/product/0/9/090877-001_X188871_10_1627549500.jpg?width=1920&height=2400&canvas=1920:2400&quality=100&bg-color=255,255,255&fit=bounds'},
+      geometry: {x: '1300', y: '1200'}
     })
   }
 }
