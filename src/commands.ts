@@ -211,7 +211,7 @@ export class CommandService {
         borderStyle: 'normal',
         textAlign: 'left'
       },
-      geometry: {x: 2315, y: 700, width: 760, height: 35, rotation: '0'}
+      geometry: {x: 2315, y: 800, width: 760, height: 35, rotation: '0'}
     })
 
     const requestParamsCollection = JSON.stringify({
