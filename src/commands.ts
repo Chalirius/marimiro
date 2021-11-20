@@ -1,5 +1,5 @@
 import { Widget } from "./models/Miro";
-import * as https from 'https'
+import * as https from 'https';
 
 export class CommandService {
 
@@ -18,11 +18,11 @@ export class CommandService {
     return options
   }
 
-  createWidget(boardId: string) {
-
-    const options = this._createOptions('POST', '/v1/boards/' + boardId + '/widgets')
+  private _createRequest(method: 'POST' | 'GET' | 'DELETE', url: string, requestParams: string) {
+    const options = this._createOptions(method, url)
 
     const req = https.request(options, res => {
+
       res.on("data", data => {
         return data as Widget
       })
@@ -33,7 +33,11 @@ export class CommandService {
       // });
     });
 
-    req.write(JSON.stringify({ type: 'card', title: 'Simple card' }));
+    req.write(requestParams);
     req.end();
+  }
+
+  createWidget(boardId: string) {
+    this._createRequest('POST', '/v1/boards/' + boardId + '/widgets', JSON.stringify({ type: 'card', title: 'Ever simpler card' }))
   }
 }
