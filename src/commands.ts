@@ -125,5 +125,12 @@ export class CommandService {
     })
     this._createRequest('POST', '/v2/boards?copy_from=' + oldBoardId, requestParams)
   }
+
+  updateImage() {
+    JSON.stringify({
+      data: {url: 'https://www.youtube.com/watch?v=HlVSNEiFCBk'},
+      geometry: {x: '0', y: '0'}
+    })
+  }
 }
 
