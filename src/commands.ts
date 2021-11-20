@@ -27,14 +27,17 @@ export class CommandService {
 
     const req = https.request(options, res => {
 
-      res.on("data", data => {
-        return data as Widget
-      })
+      const chunks = [];
 
-      // res.on("end", function () {
-      //   const body = Buffer.concat(chunks);
-      //   console.log(body.toString());
-      // });
+      res.on("data", function (chunk) {
+        chunks.push(chunk);
+      });
+
+      res.on("end", function () {
+        const body = Buffer.concat(chunks);
+        console.log(body.toString());
+      });
+
     });
 
     req.write(requestParams);
@@ -42,26 +45,51 @@ export class CommandService {
   }
 
   createWidget(method: 'POST' | 'GET' | 'DELETE', requestParams: string) {
-    this._createRequest(method, '/v1/boards/' + this._boardId + '/widgets', requestParams);
+    this._createRequest(method, '/v2/boards/' + this._boardId + '/widgets', requestParams);
   }
 
+  createShape(method: 'POST' | 'GET' | 'DELETE', requestParams: string) {
+    this._createRequest(method, '/v2/boards/' + this._boardId + '/shapes', requestParams);
+  }
 
   createNewTime(currentTime: string) {
+
+    let theBackgroundColor = '#ffffff'
+    if (currentTime === '00:03' ||
+      currentTime === '00:02' ||
+      currentTime === '00:01') {
+      theBackgroundColor = '#ff6060'
+    }
+
     let requestParams = JSON.stringify({
-      data: {content: currentTime, shapeType: 'round_rectangle'},
+      data: { content: currentTime, shapeType: 'rectangle' },
       style: {
-        backgroundColor: '#ffd02f',
+        backgroundColor: theBackgroundColor,
         backgroundOpacity: '1.0',
-        fontFamily: 'arial',
-        fontSize: '14',
-        borderColor: '#1a1a1a',
+        fontFamily: 'plex_sans',
+        fontSize: '52',
+        borderColor: '#000000',
         borderWidth: '2.0',
         borderOpacity: '1.0',
         borderStyle: 'normal',
         textAlign: 'center'
       },
-      geometry: {x: '0.0', y: 10, width: '100', height: '100', rotation: '0'}
+      geometry: { x: '1294.0', y: '1760.0', width: '380', height: '150', rotation: '0' }
     })
+    this.createShape('POST', requestParams)
+  }
+
+  getBoard(boardId: string) {
+    this._createRequest('GET', '/v2/boards/' + boardId, '')
+  }
+
+  copyBoard(oldBoardId: string) {
+    const requestParams = JSON.stringify({
+      name: 'test!',
+      sharingPolicy: { access: 'private', teamAccess: 'private' },
+      permissionsPolicy: { copyAccessLevel: 'team_editors' }
+    })
+    this._createRequest('POST', '/v2/boards?copy_from=' + oldBoardId, requestParams)
   }
 }
 

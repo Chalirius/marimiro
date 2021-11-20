@@ -1,5 +1,4 @@
 import { CommandService } from './commands'
-import { Widget } from './models/Miro'
 
 /**
  * 
@@ -15,24 +14,21 @@ const getTimeAsString = (cnt: number) => {
   return ('' + isoTime).replace('1969-12-31T22:', '').replace('.000Z', '')
 }
 
-const renderTickingClock = (cnt: number) => {
+const renderTickingClock = (cnt: number, commandService: CommandService) => {
   if (cnt < 1) {
     console.log('Kaboom!')
     // TODO! Render winner name and remove timer
   } else {
-    console.log('Tick-tock... ', getTimeAsString(cnt))
+    commandService.createNewTime(getTimeAsString(cnt))
     cnt--
-    setTimeout(() => renderTickingClock(cnt), 1000);
+    setTimeout(() => renderTickingClock
+      (cnt, commandService), 1000);
   }
 }
 
-
 (async () => {
-  const commandService = new CommandService
+  const commandService = new CommandService('o9J_lhmFzD4=')
 
-  const firstWidget = commandService.createWidget('o9J_lhpKMG0=')
-  console.log('CMD', firstWidget)
-
-
-  renderTickingClock(10)
+  // commandService.copyBoard('o9J_lhmFzD4=')
+  renderTickingClock(10, commandService)
 })()
