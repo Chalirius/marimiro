@@ -129,14 +129,14 @@ export class CommandService {
   }
 
   createImage(requestParams: string) {
-    return this._createRequest('POST', '/v2/boards/' + this._boardId + '/images', requestParams);
+    return this._makeRequest('POST', '/v2/boards/' + this._boardId + '/images', requestParams);
   }
 
   newImage(imageName: string) {
     const requestParams = JSON.stringify({
       "position": {
-          "x": 1460,
-          "y": 780
+        "x": 1460,
+        "y": 780
       },
       "title": "../images/" + imageName
     })
@@ -145,7 +145,7 @@ export class CommandService {
 
   createStartingPriceBox() {
     const requestParams = JSON.stringify({
-      data: {content: 'starting price: 30€', shapeType: 'rectangle'},
+      data: { content: 'starting price: 30€', shapeType: 'rectangle' },
       style: {
         backgroundColor: '#ffffff',
         backgroundOpacity: '1.0',
@@ -156,32 +156,32 @@ export class CommandService {
         borderOpacity: '1.0',
         borderStyle: 'normal',
         textAlign: 'center'
-      },  
-      geometry: {x: 1460, y: 1300, width: 648, height: 150, rotation: '0'}
+      },
+      geometry: { x: 1460, y: 1300, width: 648, height: 150, rotation: '0' }
     })
     this.createShape(requestParams)
   }
 
   createDescriptionBox() {
     const requestParams = JSON.stringify({
-      data: {shapeType: 'rectangle'},
-    style: {
-      backgroundColor: '#ffffff',
-      backgroundOpacity: '1.0',
-      fontFamily: 'arial',
-      fontSize: '14',
-      borderColor: '#1a1a1a',
-      borderWidth: '2.0',
-      borderOpacity: '1.0',
-      borderStyle: 'normal',
-      textAlign: 'left'
-    },
-    geometry: {x: 2315, y: 845, width: 810, height: 685, rotation: '0'}
+      data: { shapeType: 'rectangle' },
+      style: {
+        backgroundColor: '#ffffff',
+        backgroundOpacity: '1.0',
+        fontFamily: 'arial',
+        fontSize: '14',
+        borderColor: '#1a1a1a',
+        borderWidth: '2.0',
+        borderOpacity: '1.0',
+        borderStyle: 'normal',
+        textAlign: 'left'
+      },
+      geometry: { x: 2315, y: 845, width: 810, height: 685, rotation: '0' }
     })
     this.createShape(requestParams)
   }
 
-  createDescriptionText(){}
+  createDescriptionText() { }
 
 
 
