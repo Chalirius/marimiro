@@ -15,11 +15,15 @@ const getTimeAsString = (cnt: number) => {
 }
 
 const renderTickingClock = (cnt: number, commandService: CommandService) => {
+  const counter = commandService.createNewCounter(getTimeAsString(cnt))
+  const shapeId = counter.id
+  cnt--
+
   if (cnt < 1) {
     console.log('Kaboom!')
     // TODO! Render winner name and remove timer
   } else {
-    commandService.createNewTime(getTimeAsString(cnt))
+    commandService.updateCounter(shapeId, getTimeAsString(cnt))
     cnt--
     setTimeout(() => renderTickingClock
       (cnt, commandService), 1000);
@@ -29,6 +33,5 @@ const renderTickingClock = (cnt: number, commandService: CommandService) => {
 (async () => {
   const commandService = new CommandService('o9J_lhmFzD4=')
 
-  // commandService.copyBoard('o9J_lhmFzD4=')
   renderTickingClock(10, commandService)
 })()
