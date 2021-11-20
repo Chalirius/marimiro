@@ -164,25 +164,127 @@ export class CommandService {
 
   createDescriptionBox() {
     const requestParams = JSON.stringify({
-      data: { shapeType: 'rectangle' },
+      data: {shapeType: 'rectangle'},
+    style: {
+      backgroundColor: '#ffffff',
+      backgroundOpacity: '1.0',
+      fontFamily: 'open_sans',
+      fontSize: '14',
+      borderColor: '#1a1a1a',
+      borderWidth: '2.0',
+      borderOpacity: '1.0',
+      borderStyle: 'normal',
+      textAlign: 'left'
+    },
+    geometry: {x: 2315, y: 845, width: 810, height: 685, rotation: '0'}
+    })
+    this.createShape(requestParams)
+  }
+
+  createDescriptionText(title: string, size: string, collection: string, designer: string, condition: string, material: string){
+    const requestParamsTitle = JSON.stringify({
+      data: {content: title, shapeType: 'rectangle'},
       style: {
         backgroundColor: '#ffffff',
         backgroundOpacity: '1.0',
-        fontFamily: 'arial',
-        fontSize: '14',
-        borderColor: '#1a1a1a',
+        fontFamily: 'open_sans',
+        fontSize: '55',
+        borderColor: '#ffffff',
         borderWidth: '2.0',
         borderOpacity: '1.0',
         borderStyle: 'normal',
         textAlign: 'left'
       },
-      geometry: { x: 2315, y: 845, width: 810, height: 685, rotation: '0' }
+      geometry: {x: 2315, y: 700, width: 760, height: 50, rotation: '0'}
     })
-    this.createShape(requestParams)
+
+    const requestParamsSize = JSON.stringify({
+      data: {content: 'Size: ' + size, shapeType: 'rectangle'},
+      style: {
+        backgroundColor: '#ffffff',
+        backgroundOpacity: '1.0',
+        fontFamily: 'open_sans',
+        fontSize: '35',
+        borderColor: '#ffffff',
+        borderWidth: '2.0',
+        borderOpacity: '1.0',
+        borderStyle: 'normal',
+        textAlign: 'left'
+      },
+      geometry: {x: 2315, y: 700, width: 760, height: 35, rotation: '0'}
+    })
+
+    const requestParamsCollection = JSON.stringify({
+      data: {content: 'Collection: ' + collection, shapeType: 'rectangle'},
+      style: {
+        backgroundColor: '#ffffff',
+        backgroundOpacity: '1.0',
+        fontFamily: 'open_sans',
+        fontSize: '27',
+        borderColor: '#ffffff',
+        borderWidth: '2.0',
+        borderOpacity: '1.0',
+        borderStyle: 'normal',
+        textAlign: 'left'
+      },
+      geometry: {x: 2315, y: 850, width: 760, height: 30, rotation: '0'}
+    })
+
+    const requestParamsDesigner = JSON.stringify({
+      data: {content: 'Designer: ' + designer, shapeType: 'rectangle'},
+      style: {
+        backgroundColor: '#ffffff',
+        backgroundOpacity: '1.0',
+        fontFamily: 'open_sans',
+        fontSize: '27',
+        borderColor: '#ffffff',
+        borderWidth: '2.0',
+        borderOpacity: '1.0',
+        borderStyle: 'normal',
+        textAlign: 'left'
+      },
+      geometry: {x: 2315, y: 900, width: 760, height: 30, rotation: '0'}
+    })
+
+    const requestParamsCondition = JSON.stringify({
+      data: {content: 'Condition: ' + condition, shapeType: 'rectangle'},
+      style: {
+        backgroundColor: '#ffffff',
+        backgroundOpacity: '1.0',
+        fontFamily: 'open_sans',
+        fontSize: '27',
+        borderColor: '#ffffff',
+        borderWidth: '2.0',
+        borderOpacity: '1.0',
+        borderStyle: 'normal',
+        textAlign: 'left'
+      },
+      geometry: {x: 2315, y: 950, width: 760, height: 30, rotation: '0'}
+    })
+
+    const requestParamsMaterial = JSON.stringify({
+      data: {content: 'Material: ' + material, shapeType: 'rectangle'},
+      style: {
+        backgroundColor: '#ffffff',
+        backgroundOpacity: '1.0',
+        fontFamily: 'open_sans',
+        fontSize: '27',
+        borderColor: '#ffffff',
+        borderWidth: '2.0',
+        borderOpacity: '1.0',
+        borderStyle: 'normal',
+        textAlign: 'left'
+      },
+      geometry: {x: 2315, y: 1000, width: 760, height: 30, rotation: '0'}
+    })
+
+    this.createShape(requestParamsTitle)
+    this.createShape(requestParamsSize)
+    this.createShape(requestParamsCollection)
+    this.createShape(requestParamsDesigner)
+    this.createShape(requestParamsCondition)
+    this.createShape(requestParamsMaterial)
   }
-
-  createDescriptionText() { }
-
 
 
 }
