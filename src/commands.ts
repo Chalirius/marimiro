@@ -1,5 +1,5 @@
-import { Widget } from "./models/Miro";
-import * as https from 'https';
+import { Widget } from "./models/Miro"
+const axios = require("axios").default
 
 export class CommandService {
 
@@ -10,84 +10,43 @@ export class CommandService {
   private _createOptions(method: 'POST' | 'GET' | 'DELETE' | 'PATCH', path: string) {
     const options = {
       "method": method,
-      "hostname": "api.miro.com",
-      "port": null,
-      "path": path,
+      "url": 'https://api.miro.com' + path,
       "headers": {
         "Accept": "application/json",
-        "Content-Type": "application/json",
+        "Content-Type": method !== 'PATCH' ? "application/json" : 'application/vnd+miro.widgets.shape+json',
         "Authorization": "Bearer 2GYqvF-mFkrOUvaky8zofhK2jEc"
-      }
+      },
+      data: null
     }
     return options
   }
 
-  private _createRequest(method: 'POST' | 'GET' | 'DELETE' | 'PATCH', url: string, requestParams: string) {
+  private _makeRequest(method: 'POST' | 'GET' | 'DELETE' | 'PATCH', url: string, requestParams: string) {
     const options = this._createOptions(method, url)
+    options.data = requestParams
 
-    let data = null
-    const req = https.request(options, res => {
-
-      const chunks = [];
-
-      res.on("data", function (chunk) {
-        chunks.push(chunk);
-      });
-
-      res.on("end", function () {
-        const body = Buffer.concat(chunks);
-        data = JSON.parse(body.toString());
-      });
-
-    });
-
-    req.write(requestParams);
-    req.end();
-
-    return data
+    return axios.request(options)
+      .then(resp => {
+        return resp.data
+      })
+      .catch(err => {
+        console.error(err)
+      })
   }
 
   // createWidget(method: 'POST' | 'GET' | 'DELETE', requestParams: string) {
-  //   this._createRequest(method, '/v2/boards/' + this._boardId + '/widgets', requestParams);
+  //   this._makeRequest(method, '/v2/boards/' + this._boardId + '/widgets', requestParams)
   // }
 
   createShape(requestParams: string) {
-    return this._createRequest('POST', '/v2/boards/' + this._boardId + '/shapes', requestParams);
+    this._makeRequest('POST', '/v2/boards/' + this._boardId + '/shapes', requestParams)
   }
 
-  updateShape(shapeId: string, requestParams: string) {
-    return this._createRequest('PATCH', '/v2/boards/' + this._boardId + '/shapes/' + shapeId, requestParams)
-  }
-
-  updateCounter(currentTime: string, shapeId: string) {
-    let theBackgroundColor = '#ffffff'
-    if (currentTime === '00:03' ||
-      currentTime === '00:02' ||
-      currentTime === '00:01') {
-      theBackgroundColor = '#ff6060'
-    }
-
-    let requestParams = JSON.stringify({
-      data: { content: currentTime, shapeType: 'rectangle' },
-      style: {
-        backgroundColor: theBackgroundColor,
-        backgroundOpacity: '1.0',
-        fontFamily: 'plex_sans',
-        fontSize: '52',
-        borderColor: '#000000',
-        borderWidth: '2.0',
-        borderOpacity: '1.0',
-        borderStyle: 'normal',
-        textAlign: 'center'
-      },
-      geometry: { x: '1294.0', y: '1760.0', width: '380', height: '150', rotation: '0' }
-    })
-
-    this.updateShape(shapeId, requestParams)
-  }
+  // updateShape(shapeId: string, requestParams: string) {
+  //   return this._makeRequest('PATCH', '/v2/boards/' + this._boardId + '/shapes/' + shapeId, requestParams)
+  // }
 
   createNewCounter(currentTime: string) {
-
     let theBackgroundColor = '#ffffff'
     if (currentTime === '00:03' ||
       currentTime === '00:02' ||
@@ -110,11 +69,35 @@ export class CommandService {
       },
       geometry: { x: '1294.0', y: '1760.0', width: '380', height: '150', rotation: '0' }
     })
-    return this.createShape(requestParams)
+
+    this.createShape(requestParams)
+  }
+
+
+  createBidToken(sum: number, x: number, y: number, size: number) {
+    const randomColor = this._getRandomColor() || '#ffd02e'
+
+    let requestParams = JSON.stringify({
+      data: { content: sum + '€', shapeType: 'circle' },
+      style: {
+        backgroundColor: randomColor,
+        backgroundOpacity: '1.0',
+        fontFamily: 'plex_sans',
+        fontSize: '48',
+        borderColor: randomColor,
+        borderWidth: '2.0',
+        borderOpacity: '1.0',
+        borderStyle: 'normal',
+        textAlign: 'center'
+      },
+      geometry: { x: x, y: y, width: size, height: size, rotation: '0' }
+    })
+
+    this.createShape(requestParams)
   }
 
   getBoard(boardId: string) {
-    this._createRequest('GET', '/v2/boards/' + boardId, '')
+    this._makeRequest('GET', '/v2/boards/' + boardId, '')
   }
 
   copyBoard(oldBoardId: string) {
@@ -123,18 +106,37 @@ export class CommandService {
       sharingPolicy: { access: 'private', teamAccess: 'private' },
       permissionsPolicy: { copyAccessLevel: 'team_editors' }
     })
-    this._createRequest('POST', '/v2/boards?copy_from=' + oldBoardId, requestParams)
+    this._makeRequest('POST', '/v2/boards?copy_from=' + oldBoardId, requestParams)
+  }
+
+  private _getRandomColor() {
+    const randomNum = Math.floor(Math.random() * 10) + 1
+    if (randomNum > 0 && randomNum < 3) {
+      return '#fff9b1'
+    }
+    if (randomNum >= 3 && randomNum < 5) {
+      return '#ffd02e'
+    }
+    if (randomNum >= 5 && randomNum < 6) {
+      return '#23bfe7'
+    }
+    if (randomNum >= 6 && randomNum < 8) {
+      return '#7b92ff'
+    }
+    if (randomNum >= 9 && randomNum <= 10) {
+      return '#7b92ff'
+    }
   }
 
   createImage(requestParams: string) {
-    return this._createRequest('POST', '/v2/boards/' + this._boardId + '/images', requestParams);
+    return this._makeRequest('POST', '/v2/boards/' + this._boardId + '/images', requestParams);
   }
 
   newImage(imageName: string) {
     const requestParams = JSON.stringify({
       "position": {
-          "x": 1460,
-          "y": 780
+        "x": 1460,
+        "y": 780
       },
       "title": "../images/" + imageName
     })
@@ -143,7 +145,7 @@ export class CommandService {
 
   createStartingPriceBox() {
     const requestParams = JSON.stringify({
-      data: {content: 'starting price: 30€', shapeType: 'rectangle'},
+      data: { content: 'starting price: 30€', shapeType: 'rectangle' },
       style: {
         backgroundColor: '#ffffff',
         backgroundOpacity: '1.0',
@@ -154,8 +156,8 @@ export class CommandService {
         borderOpacity: '1.0',
         borderStyle: 'normal',
         textAlign: 'center'
-      },  
-      geometry: {x: 1460, y: 1300, width: 648, height: 150, rotation: '0'}
+      },
+      geometry: { x: 1460, y: 1300, width: 648, height: 150, rotation: '0' }
     })
     this.createShape(requestParams)
   }
