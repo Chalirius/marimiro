@@ -17,7 +17,7 @@ export class CommandService {
       "headers": {
         "Accept": "application/json",
         "Content-Type": method !== 'PATCH' ? "application/json" : 'application/vnd+miro.widgets.shape+json',
-        "Authorization": "Bearer 2GYqvF-mFkrOUvaky8zofhK2jEc"
+        "Authorization": "Bearer ** add token **"
       },
       data: null
     }
