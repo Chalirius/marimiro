@@ -131,13 +131,14 @@ export class CommandService {
   }
 
   newImage(imageName: string) {
-    JSON.stringify({
+    const requestParams = JSON.stringify({
       "position": {
           "x": 1300,
           "y": 1200
       },
       "title": "../images/" + imageName
-  })
+    })
+    this.createImage(requestParams)
   }
 
 }
