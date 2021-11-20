@@ -2,14 +2,6 @@ import { CommandService } from './commands'
 
 
 /**
- * 
- * @param howLong Milliseconds
- */
-const sleep = (howLong: number) => {
-  return new Promise(resolve => setTimeout(resolve, howLong))
-}
-
-/**
  *
  * @param cnt Only <59 seconds atm
  * @returns
@@ -56,19 +48,45 @@ const initNewStartingSum = (startingSum: number, commandService: CommandService)
 
   const x = 3500
   const y = 1800
-  const startSize = 130
-  const distance = 200
+  const startSize = 140
+  const distance = 210
   renderBiddingTokens(0, 18, distance, startingSum, 5, x, y, startSize, commandService)
 }
 
 (async () => {
   const commandService = new CommandService('o9J_lhmFzD4=')
 
-  // initNewStartingSum(50, commandService)
+  const item1 = {
+    title: 'Hohtosini dress',
+    size: 'M',
+    collection: 'Spring 1987',
+    designer: 'Maria K',
+    condition: 'Good',
+    material: '100% Cotton',
+    img: '../images/image3.jpg'
+  }
 
-  // sleep(5000)
+  const item2 = {
+    title: 'Askelet Unikko',
+    size: 'L',
+    collection: 'Fall 2017',
+    designer: 'Maria K',
+    condition: 'Very Good',
+    material: '55% Wool 45% Cotton',
+    img: '../images/image4.jpg'
+  }
+
+  // commandService.createImage(item1.img)
+  commandService.createDescription(item1.title, item1.size, item1.collection, item1.designer, item1.condition, item1.material)
+  initNewStartingSum(50, commandService)
+
+  commandService.sleep(5000)
 
   // Start ticking clock
-  // renderTickingClock(15, commandService)
+  renderTickingClock(15, commandService)
 
+  commandService.sleep(3000)
+  // commandService.createImage(item2.img)
+  // commandService.createDescription(item2.title, item2.size, item2.collection, item2.designer, item2.condition, item2.material)
+  // initNewStartingSum(100, commandService)
 })()

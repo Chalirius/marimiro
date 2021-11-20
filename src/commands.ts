@@ -7,6 +7,7 @@ export class CommandService {
     private _boardId: string
   ) { }
 
+
   private _createOptions(method: 'POST' | 'GET' | 'DELETE' | 'PATCH', path: string) {
     const options = {
       "method": method,
@@ -32,6 +33,14 @@ export class CommandService {
       .catch(err => {
         console.error(err)
       })
+  }
+
+  /**
+   *
+   * @param howLong Milliseconds
+   */
+  sleep(howLong: number) {
+    return new Promise(resolve => setTimeout(resolve, howLong))
   }
 
   // createWidget(method: 'POST' | 'GET' | 'DELETE', requestParams: string) {
@@ -134,11 +143,11 @@ export class CommandService {
 
   newImage(imageName: string) {
     const requestParams = JSON.stringify({
-      "position": {
+      position: {
         "x": 1460,
         "y": 780
       },
-      "title": "../images/" + imageName
+      title: "../images/" + imageName
     })
     this.createImage(requestParams)
   }
@@ -162,28 +171,34 @@ export class CommandService {
     this.createShape(requestParams)
   }
 
+  createDescription(title: string, size: string, collection: string, designer: string, condition: string, material: string) {
+    this.createDescriptionBox()
+    this.sleep(500)
+    this.createDescriptionText(title, size, collection, designer, condition, material)
+  }
+
   createDescriptionBox() {
     const requestParams = JSON.stringify({
-      data: {shapeType: 'rectangle'},
-    style: {
-      backgroundColor: '#ffffff',
-      backgroundOpacity: '1.0',
-      fontFamily: 'open_sans',
-      fontSize: '14',
-      borderColor: '#1a1a1a',
-      borderWidth: '2.0',
-      borderOpacity: '1.0',
-      borderStyle: 'normal',
-      textAlign: 'left'
-    },
-    geometry: {x: 2315, y: 845, width: 810, height: 685, rotation: '0'}
+      data: { shapeType: 'rectangle' },
+      style: {
+        backgroundColor: '#ffffff',
+        backgroundOpacity: '0.7',
+        fontFamily: 'open_sans',
+        fontSize: '14',
+        borderColor: '#1a1a1a',
+        borderWidth: '2.0',
+        borderOpacity: '1.0',
+        borderStyle: 'normal',
+        textAlign: 'left'
+      },
+      geometry: { x: 2315, y: 845, width: 810, height: 685, rotation: '0' }
     })
     this.createShape(requestParams)
   }
 
-  createDescriptionText(title: string, size: string, collection: string, designer: string, condition: string, material: string){
+  createDescriptionText(title, size: string, collection: string, designer: string, condition: string, material: string) {
     const requestParamsTitle = JSON.stringify({
-      data: {content: title, shapeType: 'rectangle'},
+      data: { content: title, shapeType: 'rectangle' },
       style: {
         backgroundColor: '#ffffff',
         backgroundOpacity: '1.0',
@@ -195,11 +210,11 @@ export class CommandService {
         borderStyle: 'normal',
         textAlign: 'left'
       },
-      geometry: {x: 2315, y: 700, width: 760, height: 50, rotation: '0'}
+      geometry: { x: 2315, y: 700, width: 760, height: 50, rotation: '0' }
     })
 
     const requestParamsSize = JSON.stringify({
-      data: {content: 'Size: ' + size, shapeType: 'rectangle'},
+      data: { content: 'Size: ' + size, shapeType: 'rectangle' },
       style: {
         backgroundColor: '#ffffff',
         backgroundOpacity: '1.0',
@@ -211,11 +226,11 @@ export class CommandService {
         borderStyle: 'normal',
         textAlign: 'left'
       },
-      geometry: {x: 2315, y: 700, width: 760, height: 35, rotation: '0'}
+      geometry: { x: 2315, y: 700, width: 760, height: 35, rotation: '0' }
     })
 
     const requestParamsCollection = JSON.stringify({
-      data: {content: 'Collection: ' + collection, shapeType: 'rectangle'},
+      data: { content: 'Collection: ' + collection, shapeType: 'rectangle' },
       style: {
         backgroundColor: '#ffffff',
         backgroundOpacity: '1.0',
@@ -227,11 +242,11 @@ export class CommandService {
         borderStyle: 'normal',
         textAlign: 'left'
       },
-      geometry: {x: 2315, y: 850, width: 760, height: 30, rotation: '0'}
+      geometry: { x: 2315, y: 850, width: 760, height: 30, rotation: '0' }
     })
 
     const requestParamsDesigner = JSON.stringify({
-      data: {content: 'Designer: ' + designer, shapeType: 'rectangle'},
+      data: { content: 'Designer: ' + designer, shapeType: 'rectangle' },
       style: {
         backgroundColor: '#ffffff',
         backgroundOpacity: '1.0',
@@ -243,11 +258,11 @@ export class CommandService {
         borderStyle: 'normal',
         textAlign: 'left'
       },
-      geometry: {x: 2315, y: 900, width: 760, height: 30, rotation: '0'}
+      geometry: { x: 2315, y: 900, width: 760, height: 30, rotation: '0' }
     })
 
     const requestParamsCondition = JSON.stringify({
-      data: {content: 'Condition: ' + condition, shapeType: 'rectangle'},
+      data: { content: 'Condition: ' + condition, shapeType: 'rectangle' },
       style: {
         backgroundColor: '#ffffff',
         backgroundOpacity: '1.0',
@@ -259,11 +274,11 @@ export class CommandService {
         borderStyle: 'normal',
         textAlign: 'left'
       },
-      geometry: {x: 2315, y: 950, width: 760, height: 30, rotation: '0'}
+      geometry: { x: 2315, y: 950, width: 760, height: 30, rotation: '0' }
     })
 
     const requestParamsMaterial = JSON.stringify({
-      data: {content: 'Material: ' + material, shapeType: 'rectangle'},
+      data: { content: 'Material: ' + material, shapeType: 'rectangle' },
       style: {
         backgroundColor: '#ffffff',
         backgroundOpacity: '1.0',
@@ -275,7 +290,7 @@ export class CommandService {
         borderStyle: 'normal',
         textAlign: 'left'
       },
-      geometry: {x: 2315, y: 1000, width: 760, height: 30, rotation: '0'}
+      geometry: { x: 2315, y: 1000, width: 760, height: 30, rotation: '0' }
     })
 
     this.createShape(requestParamsTitle)
